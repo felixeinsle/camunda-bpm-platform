@@ -52,8 +52,8 @@ public class IncidentInstanceHandler implements MigratingInstanceParseHandler<In
 
   protected void handleFailedJobIncident(MigratingInstanceParseContext parseContext, IncidentEntity incident) {
     MigratingJobInstance owningInstance = parseContext.getMigratingJobInstanceById(incident.getConfiguration());
+    parseContext.consume(incident);
     if (owningInstance != null) {
-      parseContext.consume(incident);
       if (owningInstance.migrates()) {
         MigratingIncident migratingIncident = new MigratingIncident(incident, owningInstance.getTargetScope());
         JobDefinitionEntity targetJobDefinitionEntity = owningInstance.getTargetJobDefinitionEntity();
